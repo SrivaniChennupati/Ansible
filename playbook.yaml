@@ -1,7 +1,7 @@
  - name: pinging the node 
-host: mongodb
+   host: mongodb
 #list of tasks we perform
-tasks:
-  - name: pinging the server
+   tasks:
+   - name: pinging the server
   #get the ansible module playbook command for pinging
-    ansible.builtin.ping:
+     ansible.builtin.ping:
