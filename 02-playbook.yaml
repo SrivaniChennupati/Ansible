@@ -3,9 +3,9 @@
   tasks:
   - name: Installing the nginx on mongodb
     ansible.builtin.yum:
-    name: nginx
+    name1: nginx
     state: installed
   - name: Start the nginx service
     ansible.builtin.service:
-    name: nginx
+    name2: nginx
     state: started
