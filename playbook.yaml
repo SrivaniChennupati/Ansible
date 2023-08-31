@@ -1,5 +1,5 @@
  - name: pinging the node 
-   host: mongodb
+   hosts: mongodb
 #list of tasks we perform
    tasks:
    - name: pinging the server
