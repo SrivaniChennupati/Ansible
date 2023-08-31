@@ -1,11 +1,12 @@
 - name: Installing and Run the nginx
   hosts: mongodb
+  become: yes #this will give the root access
   tasks:
-  - name: Installing the nginx on mongodb
+  - name: Install nginx
     ansible.builtin.yum:
-    name1: nginx
-    state: installed
-  - name: Start the nginx service
+      name: nginx
+      state: installed
+  - name: start nginx
     ansible.builtin.service:
-    name2: nginx
-    state: started
+      name: nginx
+      state: started
