@@ -1,11 +1,11 @@
 - name: Installing and Run the nginx
   hosts: mongodb
   tasks:
-  - name: Installing the nginx on mongodb
+  - name1: Installing the nginx on mongodb
     ansible.builtin.yum:
     name: nginx
     state: installed
-  - name: Start the nginx service
+  - name2: Start the nginx service
     ansible.builtin.service:
     name: nginx
     state: started
