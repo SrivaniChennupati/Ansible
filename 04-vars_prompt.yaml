@@ -10,4 +10,4 @@
   tasks: 
   - name: passing the variables as promot
     ansible.builtin.debug:
-      msg: "Entered variables are username:{{USERNAME}} and password:{{PASSWORD}}
+      msg: "Entered variables are username: {{USERNAME}} and password: {{PASSWORD}}
