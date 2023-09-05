@@ -1,0 +1,10 @@
+- name: Create a user
+  hosts: localhost
+  tasks:
+  - name: check roboshop exists or not
+  #when we want to run linux commands directly when ansible module is not available we should use builtin.command and to store that in variable we should use register
+    ansible.butilin.command: id roboshop
+    register: output #output is the variable name
+  - name: print the variable output
+    ansible.builtin.debug:
+      msg: "variable value is {{output}}"  
