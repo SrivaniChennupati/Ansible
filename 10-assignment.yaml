@@ -4,8 +4,9 @@
   - name: /app
   tasks:
   - name: check if the directory exists or not
-    ansible.builtin.command: id /app
+    ansible.builtin.command: mkdir /app
     register: output
+    ignore_errors: true
   - name: check the exit status 
     ansible.builtin.debug:
       msg: "{{output.rc}}"
