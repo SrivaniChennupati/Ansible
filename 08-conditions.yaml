@@ -5,9 +5,13 @@
   #when we want to run linux commands directly when ansible module is not available we should use builtin.command and to store that in variable we should use register
   #when the user does not exist , ansible will abruptly terminate the script
   #but we dont want to terminate the program, we have to tell the ansible to ignore the errors
+  #rc:1 means exit status
     ansible.builtin.command: id roboshop
     register: output #output is the variable name
     ignore_errors: true
   - name: print the variable output
     ansible.builtin.debug:
-      msg: "variable value is {{output}}"  
+      msg: "variable value is {{output}}" 
+  - name: print the exit status
+    ansible.builtin.debug:
+      msg: "{{output.rc}}"        
