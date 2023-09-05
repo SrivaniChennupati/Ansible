@@ -14,4 +14,12 @@
       msg: "variable value is {{output}}" 
   - name: print the exit status
     ansible.builtin.debug:
-      msg: "{{output.rc}}"        
+      msg: "{{output.rc}}"
+  # now based on this exit status we can write condition and create the user using user module
+  - name: create user
+    ansible.builtin.user:
+      name: roboshop
+  #here , we should write condition , refer below syntx dor ansible
+    when: output.rc !=0 # expression
+
+
