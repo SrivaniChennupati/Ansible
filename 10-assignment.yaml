@@ -4,7 +4,7 @@
   - name: /app
   tasks:
   - name: check if the directory exists or not
-    ansible.builtin.command: cd /app
+    ansible.builtin.command: cd {{name}}
     register: output
     ignore_errors: true
   - name: check the exit status 
