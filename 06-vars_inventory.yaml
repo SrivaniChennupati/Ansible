@@ -1,0 +1,6 @@
+- name: Varibles from the Inventory file
+  hosts: mongodb
+  tasks:
+  - name: Redaing the variable from Inventory file
+    ansible.builtin.debug:
+      msg: "mongodb Username: {{mongo_username}} and password :{{mongo_password}}"

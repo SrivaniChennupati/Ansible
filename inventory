@@ -1,2 +1,5 @@
 [mongodb]
 roboshop-us-dev-db-mondodb-01.devopsvani.online
+[mongodb:vars]
+mongo_username:Srivani
+mongo_password:Chennupati 
