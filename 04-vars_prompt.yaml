@@ -1,0 +1,13 @@
+- name: Reading the variables from prompt #confidential info we should not keep in prompt , so we should always use prmpt
+  hosts: localhost
+  vars_prompt:
+  - name: USERNAME
+      prompt: What is your username?
+      private: false #we can see the value Entered on screen
+  - name: PASSWORD
+      prompt: Please enetr the password
+      private: true #we cant see the values entered on screen  
+  tasks: 
+  - name: passing the variables as promot
+    ansible.builtin.debug:
+    msg: "Entered variables are username:{{USERNAME}} and password:{{PASSWORD}}
