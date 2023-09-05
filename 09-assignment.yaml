@@ -6,6 +6,7 @@
   - name: check {{USERNAME}} is exist or not , if not create one
     ansible.builtin.command: id {{USERNAME}}
     register: output
+    ignore_errors: true
   - name: print the exit status
     ansible.builtin.debug:
       msg: "{{output.rc}}"
