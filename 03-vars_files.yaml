@@ -5,4 +5,4 @@
   tasks:
   - name: Accesing the variables from the file
     ansible.builtin.debug:
-      mesg: Variables {{NAME}}
+      msg: Variables {{NAME}}
