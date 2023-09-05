@@ -1,0 +1,12 @@
+- name: declaring the variables at task level
+  hosts: localhost
+  vars: #these are called play level variables
+  - name: Srivani
+    lastname: Chennupati
+  tasks:
+  - name: Declaring the task varibales
+    vars: # these are the task variables  , I am just overriding last name here 
+    - name: srivani
+      lastname: Makkena
+    ansible.builtin.debug:
+      msg: "Task level variables are : {{name}} and {{lastname}}"  
