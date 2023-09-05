@@ -1,0 +1,19 @@
+- name: Take username as variable and check if it exists , if not create one
+  hosts: localhost
+  vars:
+  - USERNAME: srivani
+  tasks:
+  - name: check {{USERNAME}} is exist or not , if not create one
+    ansible.builtin.command: id {{USERNAME}}
+    register: output
+  - name: print the exit status
+    ansible.builtin.debug:
+      msg: "{{output.rc}}"
+  - name: creating the user
+    become: yes
+    ansible.builtin.user:
+      name: "{{USERNAME}}"
+    when: output.rc !=0
+
+
+  
