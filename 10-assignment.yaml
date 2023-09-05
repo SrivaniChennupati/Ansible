@@ -13,7 +13,7 @@
   - name: craete the directory if not exist
     become: yes
     ansible.builtin.file:
-      path: /home/centos/ansible/{{name}} 
+      path: /home/centos/ansible{{name}} 
       state: directory 
     when: output.rc !=0  
 
