@@ -1,0 +1,8 @@
+- name: Accessing the Variables from file
+  hosts: localhost #Managing the ansibe server itself
+  vars_files:
+  - variables.yaml #file of the variables
+  tasks:
+  - name: Accesing the variables from the file
+    ansible.builtin.debug:
+      mesg: Variables {{NAME}}
