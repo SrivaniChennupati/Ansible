@@ -16,13 +16,40 @@ do
         instance_Type="t2.micro"
 fi
 echo "Creating $i....."
-private_IpAdress=$(aws ec2 run-instances --image-id $Imageid --instance-type $instance_Type --security-group-ids $Securitygroup_id --tag-specifications "ResourceType=instance,Tags=[{Key=Name,Value=$i}]"|jq -r '.Instances[0].PrivateIpAddress')
-echo "Created $i : Ip Address : $private_IpAdress"
 
-aws route53 change-resource-record-sets --hosted-zone-id Z00901702AI0X0PSLUZQF --change-batch '{
-            "Comment": "CREATE",
+#describe instances command
+
+ $(aws ec2 describe-instances --filters "Name=tag:Name,Values=$i" | jq -r '.Reservations[0].Instances[0].Tags[] | select(.Key == "Name").Value')
+
+ if [ $? -ne 0 ]
+ then
+    echo "$i Instance is not Created yet.lets Create it.........."
+    private_IpAdress=$(aws ec2 run-instances --image-id $Imageid --instance-type $instance_Type --security-group-ids $Securitygroup_id --tag-specifications "ResourceType=instance,Tags=[{Key=Name,Value=$i}]"|jq -r '.Instances[0].PrivateIpAddress')
+    echo "Created $i : Ip Address : $private_IpAdress"
+ else
+    echo "$i Instance is already Created"
+
+#private_IpAdress=$(aws ec2 run-instances --image-id $Imageid --instance-type $instance_Type --security-group-ids $Securitygroup_id --tag-specifications "ResourceType=instance,Tags=[{Key=Name,Value=$i}]"|jq -r '.Instances[0].PrivateIpAddress')
+#echo "Created $i : Ip Address : $private_IpAdress"
+
+
+
+private_ip_route53_record=$(aws route53 list-resource-record-sets --hosted-zone-id "Z00901702AI0X0PSLUZQF" --query "ResourceRecordSets[?ends_with(Name, 'devopsvani.online.') && Type == 'A']"|jq -r ".[0].ResourceRecords[0].Value")
+
+if [ $private_IpAdress -eq $private_ip_route53_record]
+then
+         # Record exists and matches the expected IP
+         echo "A record already exists with the expected IP address." 
+else
+
+ # Record doesn't exist or doesn't match the expected IP
+   echo "A record does not exist or does not match the expected IP address."
+   echo "Creating/updating the Record......"
+
+   aws route53 change-resource-record-sets --hosted-zone-id Z00901702AI0X0PSLUZQF --change-batch '{
+            "Comment": "CREATE/UPDATE A record",
             "Changes": [{
-            "Action": "CREATE",
+            "Action": "UPSERT",
                         "ResourceRecordSet": {
                                     "Name": "'$i.$domain_name'",
                                     "Type": "A",
@@ -31,5 +58,12 @@ aws route53 change-resource-record-sets --hosted-zone-id Z00901702AI0X0PSLUZQF -
 }}]
 }'
 #echo "$i"
+fi
 
 done
+
+#improvemnet
+#check instances are already created or not
+#checked route 53 records are already created , if created just update them otherwise create them
+
+
