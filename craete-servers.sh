@@ -14,20 +14,21 @@ do
         instance_Type="t3.micro"
     else
         instance_Type="t2.micro"
-fi
+    fi
 echo "Creating $i....."
 
 #describe instances command
 
  $(aws ec2 describe-instances --filters "Name=tag:Name,Values=$i" | jq -r '.Reservations[0].Instances[0].Tags[] | select(.Key == "Name").Value')
 
- if [ $? -ne 0 ]
- then
+   if [ $? -ne 0 ]
+   then
     echo "$i Instance is not Created yet.lets Create it.........."
     private_IpAdress=$(aws ec2 run-instances --image-id $Imageid --instance-type $instance_Type --security-group-ids $Securitygroup_id --tag-specifications "ResourceType=instance,Tags=[{Key=Name,Value=$i}]"|jq -r '.Instances[0].PrivateIpAddress')
     echo "Created $i : Ip Address : $private_IpAdress"
- else
+   else
     echo "$i Instance is already Created"
+    fi
 
 #private_IpAdress=$(aws ec2 run-instances --image-id $Imageid --instance-type $instance_Type --security-group-ids $Securitygroup_id --tag-specifications "ResourceType=instance,Tags=[{Key=Name,Value=$i}]"|jq -r '.Instances[0].PrivateIpAddress')
 #echo "Created $i : Ip Address : $private_IpAdress"
@@ -59,7 +60,6 @@ else
 }'
 #echo "$i"
 fi
-
 done
 
 #improvemnet
