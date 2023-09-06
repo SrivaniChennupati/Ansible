@@ -19,7 +19,7 @@ echo "Creating $i....."
 
 #describe instances command
 
- $(aws ec2 describe-instances --filters "Name=tag:Name,Values=$i" | jq -r '.Reservations[0].Instances[0].Tags[] | select(.Key == "Name").Value')
+ $(aws ec2 describe-instances --filters "Name=tag:Name,Values=$i" | jq -r '.Reservations[0].Instances[0].Tags[] | select(.Key == "Name").Value')&>>/dev/null
 
    if [ $? -ne 0 ]
    then
@@ -37,7 +37,7 @@ echo "Creating $i....."
 
 private_ip_route53_record=$(aws route53 list-resource-record-sets --hosted-zone-id "Z00901702AI0X0PSLUZQF" --query "ResourceRecordSets[?ends_with(Name, 'devopsvani.online.') && Type == 'A']"|jq -r ".[0].ResourceRecords[0].Value")
 
-if [ $private_IpAdress -eq $private_ip_route53_record]
+if [ $private_IpAdress -eq $private_ip_route53_record ]
 then
          # Record exists and matches the expected IP
          echo "A record already exists with the expected IP address." 
