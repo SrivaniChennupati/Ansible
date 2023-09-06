@@ -1,0 +1,11 @@
+- name: Install and Remove the Packages using advanced for loops 
+  hosts: localhost
+  become: yes
+  tasks:
+  - name: Installing and Removing the Packages
+    ansible.builtin.yum:
+      name: "{{item.name}}"
+      state: "{{item.state}}"
+    loop:
+    - {name: 'nginx' ,state: 'installed'}
+    - {name: 'mysql' , state: 'absent'} #absent means removing
